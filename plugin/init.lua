@@ -118,6 +118,7 @@ M.apply_to_config = function(c, opts)
     format = config.clock.format,
   }
 
+  C.tab_rainbow_colors = config.tab_rainbow_colors
   -- set the right-hand padding to 0 spaces, if the rounded style is active
   C.p = (config.dividers == "rounded") and "" or " "
 
@@ -198,14 +199,21 @@ wezterm.on(
       end
     end
 
-    local rainbow = {
-      conf.resolved_palette.ansi[3],
-      conf.resolved_palette.ansi[4],
-      conf.resolved_palette.ansi[7],
-      conf.resolved_palette.ansi[2],
-      conf.resolved_palette.ansi[5],
-      conf.resolved_palette.ansi[6],
-    }
+    local rainbow = {}
+
+    if C.tab_rainbow_colors then
+      rainbow = C.tab_rainbow_colors
+    else
+      rainbow = {
+        conf.resolved_palette.ansi[3],
+        conf.resolved_palette.ansi[4],
+        conf.resolved_palette.ansi[7],
+        conf.resolved_palette.ansi[2],
+        conf.resolved_palette.ansi[5],
+        conf.resolved_palette.ansi[6],
+      }
+      C.tab_rainbow_colors = rainbow
+    end
 
     local i = tab.tab_index % 6
     local active_bg = rainbow[i + 1]
@@ -344,7 +352,7 @@ wezterm.on("update-status", function(window, _pane)
   end
 
   local first_tab_active = window:mux_window():tabs_with_info()[1].is_active
-  local divider_bg = first_tab_active and palette.ansi[3]
+  local divider_bg = first_tab_active and C.tab_rainbow_colors[1]
     or palette.tab_bar.inactive_tab.bg_color
 
   local divider = wezterm.format({
