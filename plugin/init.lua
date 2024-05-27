@@ -33,7 +33,7 @@ local config = {
   clock = {
     enabled = true,
     format = "%H:%M",
-  }
+  },
 }
 
 -- parsed config
@@ -198,11 +198,11 @@ wezterm.on(
       end
     end
 
-    local rainbow = conf.colors.rainbow or {
-      conf.resolved_palette.ansi[2],
-      conf.resolved_palette.indexed[16],
-      conf.resolved_palette.ansi[4],
+    local rainbow = {
       conf.resolved_palette.ansi[3],
+      conf.resolved_palette.ansi[4],
+      conf.resolved_palette.ansi[7],
+      conf.resolved_palette.ansi[2],
       conf.resolved_palette.ansi[5],
       conf.resolved_palette.ansi[6],
     }
@@ -344,7 +344,7 @@ wezterm.on("update-status", function(window, _pane)
   end
 
   local first_tab_active = window:mux_window():tabs_with_info()[1].is_active
-  local divider_bg = first_tab_active and palette.ansi[2]
+  local divider_bg = first_tab_active and palette.ansi[3]
     or palette.tab_bar.inactive_tab.bg_color
 
   local divider = wezterm.format({
