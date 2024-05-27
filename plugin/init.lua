@@ -33,7 +33,7 @@ local config = {
   clock = {
     enabled = true,
     format = "%H:%M",
-  },
+  }
 }
 
 -- parsed config
@@ -198,8 +198,7 @@ wezterm.on(
       end
     end
 
-    -- TODO: make colors configurable
-    local rainbow = {
+    local rainbow = conf.colors.rainbow or {
       conf.resolved_palette.ansi[2],
       conf.resolved_palette.indexed[16],
       conf.resolved_palette.ansi[4],
